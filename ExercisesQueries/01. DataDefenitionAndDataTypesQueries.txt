@@ -1,0 +1,512 @@
+--------------------------------------------------------------------
+01.Create Database
+--------------------------------------------------------------------
+CREATE DATABASE Minions
+--------------------------------------------------------------------
+02.Create Tables
+--------------------------------------------------------------------
+CREATE TABLE Minions
+(
+	Id INT NOT NULL,
+	Name nvarchar(50),
+	Age INT
+	PRIMARY KEY (Id)
+)
+
+CREATE TABLE Towns
+(
+	Id INT NOT NULL,
+	Name nvarchar(50),
+	Age INT
+	PRIMARY KEY (Id)
+)
+--------------------------------------------------------------------
+03.Alter Minions Table
+--------------------------------------------------------------------
+ALTER TABLE Minions
+ADD TownId INT
+FOREIGN KEY (TownId) REFERENCES Towns(Id)
+--------------------------------------------------------------------
+04.Insert Records In Both Tables
+--------------------------------------------------------------------
+INSERT INTO Towns (Id, Name)
+VALUES (1, 'Sofia'), (2, 'Plovdiv'), (3, 'Varna');
+
+INSERT INTO Minions (Id, Name, Age, TownId)
+VALUES (1, 'Kevin', 22, 1), (2, 'Bob', 15, 3), (3, 'Steward', NULL, 2)
+--------------------------------------------------------------------
+05.Truncate Table Minions
+--------------------------------------------------------------------
+TRUNCATE TABLE Minions
+--------------------------------------------------------------------
+06.Drop All Tables
+--------------------------------------------------------------------
+DROP TABLE Minions
+DROP TABLE Towns
+--------------------------------------------------------------------
+07.Create Table People
+--------------------------------------------------------------------
+CREATE TABLE People
+(
+	[Id] INT IDENTITY(1, 1) PRIMARY KEY,
+	[Name] nvarchar(200) NOT NULL,
+	[Picture] varbinary(2048),
+	[Height] FLOAT,
+	[Weight] FLOAT,
+	[Gender] char(1) NOT NULL,
+	[Birthdate] DATE NOT NULL,
+	[Biography] nvarchar(MAX)
+)
+
+INSERT INTO People (Name, Picture, Height, [Weight], Gender, Birthdate, Biography)
+VALUES ('Kiril', NULL, 1.8, 69, 'm', '06-01-1998', 'Az sum Kircata')
+
+INSERT INTO People (Name, Picture, Height, [Weight], Gender, Birthdate, Biography)
+VALUES ('Alex', NULL, 1.8, 69, 'm', '06-01-1998', 'Az sum Ihtimanec')
+
+INSERT INTO People (Name, Picture, Height, [Weight], Gender, Birthdate, Biography)
+VALUES ('Luisi', NULL, 1.8, 69, 'm', '06-01-1998', 'Az sum Liusi')
+
+INSERT INTO People (Name, Picture, Height, [Weight], Gender, Birthdate, Biography)
+VALUES ('John', NULL, 1.8, 69, 'm', '06-01-1998', 'Az sum John')
+
+INSERT INTO People (Name, Picture, Height, [Weight], Gender, Birthdate, Biography)
+VALUES ('Simona', NULL, 1.8, 69, 'f', '06-01-1998', 'Az sum Gergana')
+---------------------------------------------------------------------
+08. Create Table Users
+---------------------------------------------------------------------
+CREATE TABLE Users
+(
+	Id BIGINT IDENTITY(1, 1) PRIMARY KEY,
+	Username varchar(30) UNIQUE NOT NULL,
+	Password varchar(26) NOT NULL,
+	ProfilePicture varbinary(900),
+	LastLoginTime DATETIME,
+	IsDeleted BIT
+)
+
+INSERT INTO Users(Username, Password, ProfilePicture,IsDeleted)
+VALUES ('Kircata', '12345', NULL, 1)
+
+INSERT INTO Users(Username, Password, ProfilePicture,IsDeleted)
+VALUES ('Kircata0', '12345', NULL, 1)
+
+INSERT INTO Users(Username, Password, ProfilePicture, IsDeleted)
+VALUES ('Kircata1', '12345', NULL, 1)
+
+INSERT INTO Users(Username, Password, ProfilePicture, IsDeleted)
+VALUES ('Kircata2', '12345', NULL, 1)
+
+INSERT INTO Users(Username, Password, ProfilePicture, IsDeleted)
+VALUES ('Kircata3', '12345', NULL, 1)
+---------------------------------------------------------------------
+09. Change Primary Key
+---------------------------------------------------------------------
+ALTER TABLE Users
+DROP CONSTRAINT [Unique key name]
+ALTER TABLE USERS
+ADD PRIMARY KEY(Id, Username)
+---------------------------------------------------------------------
+10. Add Check Constraint
+---------------------------------------------------------------------
+ALTER TABLE Users
+ADD CONSTRAINT CheckPassword CHECK(LEN(Password) >=5)
+---------------------------------------------------------------------
+11. Set Default Value Of Field
+---------------------------------------------------------------------
+ALTER TABLE Users
+ADD DEFAULT GETDATE() FOR LastLoginTime
+---------------------------------------------------------------------
+12. Set Unique Field
+---------------------------------------------------------------------
+ALTER TABLE Users
+DROP PRIMARY KEY [Key name]
+ADD PRIMARY KEY(Id)
+ADD UNIQUE(Username)
+---------------------------------------------------------------------
+13. Movies Database
+---------------------------------------------------------------------
+CREATE DATABASE Movies
+
+CREATE TABLE Directors
+(
+	[Id] INT IDENTITY PRIMARY KEY,
+	[DirectorName] varchar(50) NOT NULL,
+	[Notes] varchar(MAX)
+)
+
+CREATE TABLE Genres
+(
+	[Id] INT IDENTITY PRIMARY KEY,
+	[GenreName] varchar(50) NOT NULL,
+	[Notes] varchar(MAX)
+)
+
+CREATE TABLE Categories
+(
+	[Id] INT IDENTITY PRIMARY KEY,
+	[CategoryName] varchar(50) NOT NULL,
+	[Notes] varchar(MAX)
+)
+
+CREATE TABLE Movies
+(
+	[Id] INT IDENTITY PRIMARY KEY,
+	[Title] varchar(50) NOT NULL,
+	[DirectorId] INT FOREIGN KEY REFERENCES Directors(Id),
+	[CopyrightYear] DATETIME NOT NULL,
+	[Length] FLOAT NOT NULL,
+	[GenreId] INT FOREIGN KEY REFERENCES Genres(Id),
+	[CategoryId] INT FOREIGN KEY REFERENCES Categories(Id),
+	[Rating] FLOAT,
+	[Notes] varchar(MAX)
+)
+
+INSERT INTO Directors (DirectorName, Notes)
+VALUES ('Kiro', 'No notes')
+
+INSERT INTO Directors (DirectorName, Notes)
+VALUES ('Kiro0', 'No notes')
+
+INSERT INTO Directors (DirectorName, Notes)
+VALUES ('Kiro1', 'No notes')
+
+INSERT INTO Directors (DirectorName, Notes)
+VALUES ('Kiro2', 'No notes')
+
+INSERT INTO Directors (DirectorName, Notes)
+VALUES ('Kiro3', 'No notes')
+
+INSERT INTO Categories (CategoryName, Notes)
+VALUES ('A', 'No notes')
+
+INSERT INTO Categories (CategoryName, Notes)
+VALUES ('B', 'No notes')
+
+INSERT INTO Categories (CategoryName, Notes)
+VALUES ('C', 'No notes')
+
+INSERT INTO Categories (CategoryName, Notes)
+VALUES ('D', 'No notes')
+
+INSERT INTO Categories (CategoryName, Notes)
+VALUES ('E', 'No notes')
+
+INSERT INTO Genres (GenreName, Notes)
+VALUES ('Action', 'Not for kids')
+
+INSERT INTO Genres (GenreName, Notes)
+VALUES ('Sci-fi', 'Not for kids')
+
+INSERT INTO Genres (GenreName, Notes)
+VALUES ('Fantasy', 'Not for kids')
+
+INSERT INTO Genres (GenreName, Notes)
+VALUES ('Drama', 'Not for kids')
+
+INSERT INTO Genres (GenreName, Notes)
+VALUES ('Kids', 'For kids')
+
+INSERT INTO Movies (Title, DirectorId, CopyrightYear, Length, GenreId, CategoryId, Rating, Notes)
+VALUES ('Kircata die hard', 1, '01-01-2000', 2, 1, 1, 100, 'No notes')
+
+INSERT INTO Movies (Title, DirectorId, CopyrightYear, Length, GenreId, CategoryId, Rating, Notes)
+VALUES ('Kircata armagedon', 1, '01-01-2000', 2, 2, 1, 100, 'No notes')
+
+INSERT INTO Movies (Title, DirectorId, CopyrightYear, Length, GenreId, CategoryId, Rating, Notes)
+VALUES ('Kircata and the dragons', 1, '01-01-2000', 2, 3, 1, 100, 'No notes')
+
+INSERT INTO Movies (Title, DirectorId, CopyrightYear, Length, GenreId, CategoryId, Rating, Notes)
+VALUES ('Kircata and his lost love', 1, '01-01-2000', 2, 4, 1, 100, 'No notes')
+
+INSERT INTO Movies (Title, DirectorId, CopyrightYear, Length, GenreId, CategoryId, Rating, Notes)
+VALUES ('Kircata and SoftUniKids', 1, '01-01-2000', 2, 5, 1, 100, 'No notes')
+---------------------------------------------------------------------
+14. Car Rental Database
+---------------------------------------------------------------------
+CREATE TABLE Categories
+(
+	[Id] INT IDENTITY PRIMARY KEY,
+	[Category] nvarchar(10) NOT NULL,
+	[DailyRate] FLOAT,
+	[WeeklyRate] FLOAT,
+	[MonthlyRate] FLOAT,
+	[WeekendRate] FLOAT
+)
+
+CREATE TABLE Cars
+(
+	[Id] INT IDENTITY PRIMARY KEY,
+	[PlateNumber] varchar(25) NOT NULL,
+	[Make] nvarchar(25) NOT NULL,
+	[Model] nvarchar(25) NOT NULL,
+	[CarYear] DATETIME,
+	[CategoryId] INT,
+	[Doors] INT,
+	[Picture] varbinary(2000),
+	[Condition] nvarchar(20),
+	[Available] BIT NOT NULL
+)
+
+CREATE TABLE Employees
+(
+	[Id] INT IDENTITY PRIMARY KEY,
+	[FirstName] nvarchar(50) NOT NULL,
+	[LastName] nvarchar(50) NOT NULL,
+	[Title] nvarchar(50) NOT NULL,
+	[Notes] nvarchar(MAX)
+)
+
+CREATE TABLE Customers
+(
+	[Id] INT IDENTITY PRIMARY KEY,
+	[DriverLicenceNumber] varchar(25),
+	[FullName] nvarchar(100) NOT NULL,
+	[Address] nvarchar(100) NOT NULL,
+	[City] nvarchar(20),
+	[ZIPCode] INT,
+	[Notes] nvarchar(MAX),
+)
+
+CREATE TABLE RentalOrders
+(
+	[Id] INT IDENTITY PRIMARY KEY,
+	[EmployeeId] INT,
+	[CustomerId] INT,
+	[CarId] INT,
+	[CarCondition] nvarchar(20),
+	[TankLevel] FLOAT,
+	[KilometrageStart] FLOAT,
+	[KilometrageEnd] FLOAT,
+	[TotalKilometrage] FLOAT,
+	[StartDate] DATETIME,
+	[EndDate] DATETIME,
+	[TotalDays] INT,
+	[RateApplied] FLOAT,
+	[TaxRate] FLOAT,
+	[OrderStatus] nvarchar(20),
+	[Notes] nvarchar(MAX)
+)
+
+INSERT INTO Categories (Category)
+VALUES ('Kategoriq1'), ('Kategoriq2'), ('Kategoriq3')
+
+INSERT INTO Cars (PlateNumber, Make, Model, CategoryId, Available)
+VALUES ('21312412', 'AUDI', 'Q7', 1, 1),
+('21312412', 'AUDI', 'Q7', 1, 1),
+('21312412', 'AUDI', 'Q7', 1, 1)
+
+INSERT INTO Employees(FirstName, LastName, Title)
+VALUES ('Kiril', 'Kirilov', 'CEO'),  ('Kiril', 'Kirilov', 'CEO'), ('Kiril', 'Kirilov', 'CEO')
+
+INSERT INTO Customers (FullName, Address)
+VALUES ('Kiril Kirilov', 'j.k Suha Reka, bl.29, vh. E, ap.17'),
+('Kiril Kirilov', 'j.k Suha Reka, bl.29, vh. E, ap.17'),
+('Kiril Kirilov', 'j.k Suha Reka, bl.29, vh. E, ap.17')
+
+INSERT INTO RentalOrders(EmployeeId, CustomerId, CarId)
+VALUES (1, 1, 4), (1, 1, 4), (1, 1, 4)
+---------------------------------------------------------------------
+15. Hotel Database
+---------------------------------------------------------------------
+CREATE DATABASE Hotel
+
+CREATE TABLE Employees
+(
+	Id INT IDENTITY(1, 1) PRIMARY KEY,
+	FirstName nvarchar(25) NOT NULL,
+	LastName nvarchar(25) NOT NULL,
+	Title varchar(25) NOT NULL,
+	Notes varchar(MAX)
+)
+
+CREATE TABLE Customers
+(
+	AccountNumber varchar(30) PRIMARY KEY,
+	FirstName nvarchar(25) NOT NULL,
+	LastName nvarchar(25) NOT NULL,
+	PhoneNumber varchar(15),
+	EmergencyName varchar(25),
+	EmergencyNumber varchar(15),
+	Notes varchar(MAX)
+)
+
+CREATE TABLE RoomStatus
+(
+	RoomStatus varchar(50) PRIMARY KEY,
+	Notes varchar(MAX)
+)
+
+CREATE TABLE RoomTypes
+(
+	RoomType varchar(50) PRIMARY KEY,
+	Notes varchar(MAX)
+)
+
+CREATE TABLE BedTypes
+(
+	BedType varchar(50) PRIMARY KEY,
+	Notes varchar(MAX)
+)
+
+CREATE TABLE Rooms
+(
+	RoomNumber INT PRIMARY KEY,
+	RoomType varchar(50) NOT NULL,
+	BedType varchar(50) NOT NULL,
+	Rate FLOAT,
+	RoomStatus varchar(50) NOT NULL,
+	Notes varchar(MAX)
+)
+
+CREATE TABLE Payments
+(
+	Id INT IDENTITY(1, 1) PRIMARY KEY,
+	EmployeeId INT NOT NULL,
+	PaymentDate DATETIME NOT NULL,
+	AccountNumber varchar(30),
+	FirstDateOccupied DATETIME,
+	LastDateOccupied DATETIME,
+	TotalDays INT,
+	AmountCharged FLOAT,
+	TaxRate FLOAT,
+	TaxAmount FLOAT,
+	PaymentTotal FLOAT,
+	Notes varchar(MAX)
+)
+
+CREATE TABLE Occupancies
+(
+	Id INT IDENTITY(1, 1) PRIMARY KEY,
+	EmployeeId INT NOT NULL,
+	DateOccupied DATETIME,
+	AccountNumber varchar(30),
+	RoomNumber INT,
+	RateApplied FLOAT,
+	PhoneCharge FLOAT,
+	Notes varchar(MAX)
+)
+
+INSERT INTO Employees(FirstName, LastName, Title)
+VALUES ('Kiril', 'Kirilov', 'CEO'), ('Kiril', 'Kirilov', 'CEO'), ('Kiril', 'Kirilov', 'CEO')
+
+INSERT INTO Customers (AccountNumber, FirstName, LastName)
+VALUES ('0895964686', 'Kiril', 'Kirilov'), ('0895964681', 'Kiril', 'Kirilov'),('0805964686', 'Kiril', 'Kirilov')
+
+INSERT INTO RoomStatus (RoomStatus)
+VALUES ('Free'), ('Not free'), ('Looks fine')
+
+INSERT INTO RoomTypes (RoomType)
+VALUES ('Clean'), ('Dirty'), ('Wet')
+
+INSERT INTO BedTypes (BedType)
+VALUES ('IKEA'), ('IKEA1'), ('IKEA2')
+
+INSERT INTO Rooms (RoomNumber, RoomType, BedType, RoomStatus)
+VALUES ('210', 'Clean', 'IKEA', 'Open'), ('211', 'Clean', 'IKEA', 'Open'),('212', 'Clean', 'IKEA', 'Open')
+
+INSERT INTO Payments (EmployeeId, PaymentDate)
+VALUES (1, '01-01-1997'), (1, '01-01-1997'),(1, '01-01-1997')
+
+INSERT INTO Occupancies (EmployeeId)
+VALUES (1),  (1),  (1)
+---------------------------------------------------------------------
+16. Car SoftUni Database
+---------------------------------------------------------------------
+CREATE TABLE Towns
+(
+	Id INT IDENTITY(1, 1) PRIMARY KEY,
+	Name varchar(50) NOT NULL
+)
+
+CREATE TABLE Addresses
+(
+	Id INT IDENTITY(1, 1) PRIMARY KEY,
+	AddressText varchar(100) NOT NULL,
+	TownId INT FOREIGN KEY REFERENCES Towns(Id) NOT NULL
+)
+
+CREATE TABLE Departments
+(
+	Id INT IDENTITY(1, 1) PRIMARY KEY,
+	Name varchar(50) NOT NULL
+)
+
+CREATE TABLE Employees
+(
+	Id INT IDENTITY(1, 1) PRIMARY KEY,
+	FirstName varchar(25) NOT NULL,
+	MiddleName varchar(25) NOT NULL,
+	LastName varchar(25) NOT NULL,
+	JobTitle varchar(25) NOT NULL,
+	DepartmentId INT FOREIGN KEY REFERENCES Departments(Id),
+	HireDate DATETIME,
+	Salary FLOAT,
+	AddressId INT FOREIGN KEY REFERENCES Addresses(Id)
+
+)
+---------------------------------------------------------------------
+17. Backup Database
+---------------------------------------------------------------------
+BACKUP DATABASE SoftUni
+TO DISK = 'C:\Data Kiril\softuni-backup.bak'
+	WITH FORMAT,
+		NAME = 'Full Backup'
+---------------------------------------------------------------------
+18. Basic Insert
+---------------------------------------------------------------------
+INSERT INTO Towns (Name)
+VALUES ('Sofia'), ('Plovdiv'), ('Varna'), ('Burgas')
+
+INSERT INTO Departments (Name)
+VALUES ('Engineering'), ('Sales'), ('Marketing')
+, ('Software Development'), ('Quality Assurance')
+
+INSERT INTO Employees (FirstName, MiddleName, LastName, JobTitle, DepartmentId, HireDate, Salary)
+VALUES ('Ivan', 'Ivanov', 'Ivanov', '.NET Developer', 4, '02/01/2013', 3500),
+('Petar', 'Petrov', 'Petrov', 'Senior Engineer', 1, '03/02/2004', 4000),
+('Maria', 'Petrova', 'Ivanova', 'Intern',5, '08/28/2016', 525.25),
+('Georgi', 'Terziev', 'Ivanov', 'CEO', 2, '12/09/2007', 3000),
+('Peter', 'Pan', 'Pan', 'Intern', 3, '08/28/2016', 599.88)
+---------------------------------------------------------------------
+19. Basic Select All Fields
+---------------------------------------------------------------------
+SELECT * FROM Towns
+SELECT * FROM Departments
+SELECT * FROM Employees
+---------------------------------------------------------------------
+20. Basic Select All Fields and Order Them
+---------------------------------------------------------------------
+SELECT * FROM Towns
+ORDER BY [Name]
+SELECT * FROM Departments
+ORDER BY [Name]
+SELECT * FROM Employees
+ORDER BY [Salary] DESC
+---------------------------------------------------------------------
+21. Basic Select Some Fields
+---------------------------------------------------------------------
+SELECT [Name] FROM Towns
+ORDER BY [Name]
+SELECT [Name] FROM Departments
+ORDER BY [Name]
+SELECT [FirstName], [LastName], [JobTitle], [Salary] FROM Employees
+ORDER BY [Salary] DESC
+---------------------------------------------------------------------
+22. Increase Employees Salary
+---------------------------------------------------------------------
+UPDATE Employees
+SET [Salary] *= 1.10
+
+SELECT [Salary] FROM Employees
+---------------------------------------------------------------------
+23. Decrease Tax Rate
+---------------------------------------------------------------------
+UPDATE Payments
+SET [TaxRate] /= 1.03
+
+SELECT [TaxRate] FROM Payments
+---------------------------------------------------------------------
+24. Delete All Records
+---------------------------------------------------------------------
+TRUNCATE TABLE Occupancies
